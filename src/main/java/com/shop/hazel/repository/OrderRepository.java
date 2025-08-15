@@ -2,13 +2,12 @@ package com.shop.hazel.repository;
 
 import com.shop.hazel.domain.Member;
 import com.shop.hazel.domain.OrderSearch;
+import com.shop.hazel.domain.Order;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
-import jakarta.persistence.EntityManager;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ public class OrderRepository {
 
     private final EntityManager em;
 
-    public void save(Order order) {
+    public void save(com.shop.hazel.domain.Order order) {
         em.persist(order);
     }
 
@@ -93,3 +92,4 @@ public class OrderRepository {
         return query.getResultList();
     }
 }
+
