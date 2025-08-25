@@ -15,8 +15,11 @@ public class Member {
     @Id @GeneratedValue
     @Column(name = "member_id")
     private Long id;
-
     private String name;
+    private String password;
+
+    @Transient
+    private String confirmPassword; //DB에 저장하지 않음
 
     @Embedded
     private Address address;

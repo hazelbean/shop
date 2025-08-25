@@ -6,36 +6,57 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    /**
-     * 회원가입
-     */
-    @Transactional //변경
+    @Transactional
     public Long join(Member member) {
+        // 이름 중복 검사
+        if (isNameDuplicate(member.getName())) {
+            throw new IllegalStateException("이미 존재하는 회원입니다.");
+        }
 
-        validateDuplicateMember(member); //중복 회원 검증
+        // 비밀번호 유효성 검사
+        String pw = member.getPassword();
+        if (!Pattern.matches("(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{4,}", pw)) {
+            throw new IllegalArgumentException("비밀번호는 대문자, 소문자, 특수문자, 숫자를 각각 하나 이상 포함해야 합니다.");
+        }
+
+        // 비밀번호 암호화
+        member.setPassword(encryptSHA256(pw));
+
         memberRepository.save(member);
         return member.getId();
     }
 
-    private void validateDuplicateMember(Member member) {
-        List<Member> findMembers = memberRepository.findByName(member.getName());
-        if (!findMembers.isEmpty()) {
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
+    public boolean isNameDuplicate(String name) {
+        List<Member> members = memberRepository.findByName(name);
+        return !members.isEmpty();
+    }
+
+    private String encryptSHA256(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hashed = md.digest(input.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hashed) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("암호화 실패", e);
         }
     }
 
-    /**
-     * 전체 회원 조회
-     */
     public List<Member> findMembers() {
         return memberRepository.findAll();
     }
@@ -44,12 +65,9 @@ public class MemberService {
         return memberRepository.findOne(memberId);
     }
 
-    /**
-     * 회원 수정
-     */
     @Transactional
     public void update(Long id, String name) {
-        Member member = memberRepository.findOne(id);
+        Member member = findOne(id);
         member.setName(name);
     }
 }

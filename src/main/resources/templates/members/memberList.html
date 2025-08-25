@@ -1,16 +1,15 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: header}" />
+<head th:replace="~{fragments/header :: header}"/>
 <body>
-
 <div class="container">
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}" />
-    <div>
-        <table class="table table-striped">
-            <thead>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
+    <div class="mt-4">
+        <table class="table table-striped table-hover text-center">
+            <thead class="table-dark">
             <tr>
-                <th>#</th>
-                <th>이름</th>
+                <th>번호</th>
+                <th>회원명</th>
                 <th>도시</th>
                 <th>주소</th>
                 <th>우편번호</th>
@@ -27,10 +26,7 @@
             </tbody>
         </table>
     </div>
-
-    <div th:replace="~{fragments/footer :: footer}" />
-
-</div> <!-- /container -->
-
+    <div th:replace="~{fragments/footer :: footer}"/>
+</div>
 </body>
 </html>

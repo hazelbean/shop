@@ -1,40 +1,81 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: header}" />
 <style>
-    .fieldError {
-        border-color: #bd2130;
-    }
+    .fieldError { border-color: #bd2130; }
+    .errorMsg { color: red; font-size: 0.9em; }
 </style>
+</head>
 <body>
-
 <div class="container">
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
 
-    <form role="form" action="/members/new" th:object="${memberForm}" method="post">
+    <form th:action="@{/members/new}" th:object="${memberForm}" method="post">
         <div class="form-group">
-            <label th:for="name">이름</label>
-            <input type="text" th:field="*{name}" class="form-control" placeholder="이름을 입력하세요"
-                   th:class="${#fields.hasErrors('name')}? 'form-control fieldError' : 'form-control'">
-            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect date</p>
+            <label>이름</label>
+            <input type="text" th:field="*{name}" class="form-control"
+                   th:classappend="${#fields.hasErrors('name')}? 'fieldError' : ''">
+            <p class="errorMsg" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+            <p class="errorMsg" id="nameCheck"></p>
         </div>
         <div class="form-group">
-            <label th:for="city">도시</label>
-            <input type="text" th:field="*{city}" class="form-control" placeholder="도시를 입력하세요">
+            <label>비밀번호</label>
+            <input type="password" th:field="*{password}" class="form-control"
+                   th:classappend="${#fields.hasErrors('password')}? 'fieldError' : ''">
+            <p class="errorMsg" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
         </div>
         <div class="form-group">
-            <label th:for="street">거리</label>
-            <input type="text" th:field="*{street}" class="form-control" placeholder="거리를 입력하세요">
+            <label>비밀번호 확인</label>
+            <input type="password" th:field="*{confirmPassword}" class="form-control"
+                   th:classappend="${#fields.hasErrors('confirmPassword')}? 'fieldError' : ''">
+            <p class="errorMsg" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
         </div>
         <div class="form-group">
-            <label th:for="zipcode">우편번호</label>
-            <input type="text" th:field="*{zipcode}" class="form-control" placeholder="우편번호를 입력하세요">
+            <label>도시</label>
+            <input type="text" th:field="*{city}" class="form-control">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="form-group">
+            <label>주소</label>
+            <input type="text" th:field="*{street}" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>우편번호</label>
+            <input type="text" th:field="*{zipcode}" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">회원가입</button>
     </form>
-    <br/>
-    <div th:replace="~{fragments/footer :: footer}" />
-</div> <!-- /container -->
+</div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(function(){
+        $('input[name="name"]').on('input', function() {
+            const name = $(this).val();
+            if(name.length > 0){
+                $.get("/members/check-name", {name: name}, function(data){
+                    if(data.exists){
+                        $('#nameCheck').text('이미 존재하는 아이디입니다.');
+                    } else {
+                        $('#nameCheck').text('');
+                    }
+                });
+            } else {
+                $('#nameCheck').text('');
+            }
+        });
+
+        $('input[name="confirmPassword"], input[name="password"]').on('input', function(){
+            const pw = $('input[name="password"]').val();
+            const cpw = $('input[name="confirmPassword"]').val();
+            if(cpw.length > 0 && pw !== cpw){
+                $('input[name="confirmPassword"]').addClass('fieldError');
+                $('input[name="confirmPassword"]').next('.errorMsg').text('비밀번호가 일치하지 않습니다.');
+            } else {
+                $('input[name="confirmPassword"]').removeClass('fieldError');
+                $('input[name="confirmPassword"]').next('.errorMsg').text('');
+            }
+        });
+    });
+</script>
 </body>
 </html>

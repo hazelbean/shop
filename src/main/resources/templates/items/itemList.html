@@ -1,20 +1,30 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: header}" />
+<head th:replace="~{fragments/header :: header}"/>
+<style>
+    /* 테이블 셀 텍스트 한 줄로 유지 */
+    .table td, .table th {
+        white-space: nowrap;       /* 텍스트 줄바꿈 방지 */
+        overflow: hidden;          /* 넘치는 텍스트 숨김 */
+        text-overflow: ellipsis;   /* ...으로 표시 */
+        vertical-align: middle;    /* 세로 중앙 정렬 */
+    }
+</style>
 <body>
 
 <div class="container">
+
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
 
-    <div>
-        <table class="table table-striped">
-            <thead>
+    <div class="mt-4">
+        <table class="table table-striped table-hover text-center">
+            <thead class="table-dark">
             <tr>
-                <th>#</th>
-                <th>상품명</th>
-                <th>가격</th>
-                <th>재고수량</th>
-                <th></th>
+                <th scope="col">번호</th>
+                <th scope="col">상품명</th>
+                <th scope="col">가격</th>
+                <th scope="col">재고수량</th>
+                <th scope="col">관리</th>
             </tr>
             </thead>
             <tbody>
@@ -24,7 +34,7 @@
                 <td th:text="${item.price}"></td>
                 <td th:text="${item.stockQuantity}"></td>
                 <td>
-                    <a href="#" th:href="@{/items/{id}/edit (id=${item.id})}" class="btn btn-primary" role="button">수정</a>
+                    <a href="#" th:href="@{/items/{id}/edit (id=${item.id})}" class="btn btn-primary btn-sm">수정</a>
                 </td>
             </tr>
             </tbody>

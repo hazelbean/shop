@@ -1,38 +1,71 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: header}">
-    <title>Hello</title>
+    <title>BOOK SHOP</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
+<div class="container py-5">
 
-<div class="container">
+    <!-- Header -->
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
 
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}" />
-
-    <div class="jumbotron">
-        <h1>HELLO SHOP</h1>
-        <p class="lead">회원 기능</p>
-        <p>
-            <a class="btn btn-lg btn-secondary" href="/members/new">회원 가입</a>
-            <a class="btn btn-lg btn-secondary" href="/members">회원 목록</a>
-        </p>
-        <p class="lead">상품 기능</p>
-        <p>
-            <a class="btn btn-lg btn-dark" href="/items/new">상품 등록</a>
-            <a class="btn btn-lg btn-dark" href="/items">상품 목록</a>
-        </p>
-        <p class="lead">주문 기능</p>
-        <p>
-            <a class="btn btn-lg btn-info" href="/order">상품 주문</a>
-            <a class="btn btn-lg btn-info" href="/orders">주문 내역</a>
-        </p>
+    <!-- Page Title -->
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">도서 쇼핑몰</h1>
+        <p class="text-muted">도서 | 음반 | 영화</p>
     </div>
 
-    <div th:replace="~{fragments/footer :: footer}" />
+    <!-- Cards Section -->
+    <div class="row g-4">
 
-</div> <!-- /container -->
+        <!-- Member Card -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h4 class="card-title mb-3">회원 기능</h4>
+                    <p class="card-text text-muted">회원 가입 및 목록 조회</p>
+                    <a href="/members/new" class="btn btn-primary w-100 mb-2">회원 가입</a>
+                    <a href="/members" class="btn btn-outline-primary w-100">회원 목록</a>
+                </div>
+            </div>
+        </div>
 
+        <!-- Item Card -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h4 class="card-title mb-3">상품 기능</h4>
+                    <p class="card-text text-muted">상품 등록 및 목록 조회</p>
+                    <a href="/items/new" class="btn btn-success w-100 mb-2">상품 등록</a>
+                    <a href="/items" class="btn btn-outline-success w-100">상품 목록</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Card -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h4 class="card-title mb-3">주문 기능</h4>
+                    <p class="card-text text-muted">상품 주문 및 내역 확인</p>
+                    <a href="/order" class="btn btn-info w-100 mb-2">상품 주문</a>
+                    <a href="/orders" class="btn btn-outline-info w-100">주문 내역</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-5" th:replace="~{fragments/footer :: footer}"></div>
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
