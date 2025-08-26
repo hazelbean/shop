@@ -21,7 +21,7 @@ public class MemberService {
     @Transactional
     public Long join(Member member) {
         // 이름 중복 검사
-        if (isNameDuplicate(member.getName())) {
+        if (isEmailDuplicate(member.getEmail())) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
 
@@ -38,7 +38,7 @@ public class MemberService {
         return member.getId();
     }
 
-    public boolean isNameDuplicate(String name) {
+    public boolean isEmailDuplicate(String name) {
         List<Member> members = memberRepository.findByName(name);
         return !members.isEmpty();
     }
@@ -66,8 +66,8 @@ public class MemberService {
     }
 
     @Transactional
-    public void update(Long id, String name) {
+    public void update(Long id, String email) {
         Member member = findOne(id);
-        member.setName(name);
+        member.setEmail(email);
     }
 }

@@ -21,7 +21,7 @@ public class MemberApiController {
     public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequest request) {
 
         Member member = new Member();
-        member.setName(request.getName());
+        member.setEmail(request.getEmail());
 
         Long id = memberService.join(member);
         return new CreateMemberResponse(id);
@@ -34,9 +34,9 @@ public class MemberApiController {
     public UpdateMemberResponse updateMemberV2(
             @PathVariable("id") Long id,
             @RequestBody @Valid UpdateMemberRequest request) { // Update Request Dto
-        memberService.update(id, request.getName());
+        memberService.update(id, request.getEmail());
         Member findMember = memberService.findOne(id);
-        return new UpdateMemberResponse(findMember.getId(), findMember.getName());
+        return new UpdateMemberResponse(findMember.getId(), findMember.getEmail());
     }
 
     /**
@@ -48,7 +48,7 @@ public class MemberApiController {
         List<Member> findMembers = memberService.findMembers();
         //엔티티 -> DTO 변환
         List<MemberDto> collect = findMembers.stream()
-                .map(m -> new MemberDto(m.getName()))
+                .map(m -> new MemberDto(m.getEmail()))
                 .collect(Collectors.toList());
 
         return new Result(collect);
@@ -63,24 +63,24 @@ public class MemberApiController {
     @Data
     @AllArgsConstructor
     static class MemberDto {
-        private String name;
+        private String email;
     }
 
     @Data
     static class UpdateMemberRequest {
-        private String name;
+        private String email;
     }
 
     @Data
     @AllArgsConstructor
     static class UpdateMemberResponse {
         private Long id;
-        private String name;
+        private String email;
     }
 
     @Data
     static class CreateMemberRequest {
-        private String name;
+        private String email;
     }
 
     @Data

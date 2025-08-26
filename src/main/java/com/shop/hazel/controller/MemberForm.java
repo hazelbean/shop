@@ -7,7 +7,7 @@ import lombok.Data;
 public class MemberForm {
 
     @NotEmpty(message = "이름을 입력하세요")
-    private String name;
+    private String email;
 
     @NotEmpty(message = "비밀번호를 입력하세요")
     private String password;
@@ -15,7 +15,6 @@ public class MemberForm {
     @NotEmpty(message = "비밀번호 확인을 입력하세요")
     private String confirmPassword;
 
-    private String city;
-    private String street;
+    private String address;
     private String zipcode;
 }

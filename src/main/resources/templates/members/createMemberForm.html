@@ -4,6 +4,7 @@
 <style>
     .fieldError { border-color: #bd2130; }
     .errorMsg { color: red; font-size: 0.9em; }
+    .successMsg { color: green; font-size: 0.9em; }
 </style>
 </head>
 <body>
@@ -11,37 +12,40 @@
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
 
     <form th:action="@{/members/new}" th:object="${memberForm}" method="post">
+        <!-- 이메일 -->
         <div class="form-group">
-            <label>이름</label>
-            <input type="text" th:field="*{name}" class="form-control"
-                   th:classappend="${#fields.hasErrors('name')}? 'fieldError' : ''">
-            <p class="errorMsg" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
-            <p class="errorMsg" id="nameCheck"></p>
+            <label>ID (E-mail)</label>
+            <input type="text" th:field="*{email}" class="form-control">
+            <p class="errorMsg" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+            <p id="emailCheck"></p>
         </div>
+
+        <!-- 비밀번호 -->
         <div class="form-group">
             <label>비밀번호</label>
-            <input type="password" th:field="*{password}" class="form-control"
-                   th:classappend="${#fields.hasErrors('password')}? 'fieldError' : ''">
+            <input type="password" th:field="*{password}" class="form-control">
             <p class="errorMsg" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+            <p id="pwCheck"></p>
         </div>
+
+        <!-- 비밀번호 확인 -->
         <div class="form-group">
             <label>비밀번호 확인</label>
-            <input type="password" th:field="*{confirmPassword}" class="form-control"
-                   th:classappend="${#fields.hasErrors('confirmPassword')}? 'fieldError' : ''">
+            <input type="password" th:field="*{confirmPassword}" class="form-control">
             <p class="errorMsg" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
+            <p id="confirmPwCheck"></p>
         </div>
-        <div class="form-group">
-            <label>도시</label>
-            <input type="text" th:field="*{city}" class="form-control">
-        </div>
+
+        <!-- 주소 -->
         <div class="form-group">
             <label>주소</label>
-            <input type="text" th:field="*{street}" class="form-control">
+            <input type="text" th:field="*{address}" class="form-control">
         </div>
         <div class="form-group">
             <label>우편번호</label>
             <input type="text" th:field="*{zipcode}" class="form-control">
         </div>
+
         <button type="submit" class="btn btn-primary">회원가입</button>
     </form>
 </div>
@@ -49,33 +53,81 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(function(){
-        $('input[name="name"]').on('input', function() {
-            const name = $(this).val();
-            if(name.length > 0){
-                $.get("/members/check-name", {name: name}, function(data){
-                    if(data.exists){
-                        $('#nameCheck').text('이미 존재하는 아이디입니다.');
-                    } else {
-                        $('#nameCheck').text('');
-                    }
-                });
+
+        // 이메일 중복 체크
+        $('input[name="email"]').on('input', function() {
+            const email = $(this).val();
+            const $msg = $('#emailCheck');
+
+            if(email.length === 0){
+                $msg.text('').removeClass('errorMsg successMsg');
+                $(this).removeClass('fieldError');
+                return;
+            }
+
+            $.get("/members/check-email", {email: email}, function(data){
+                if(data.exists){
+                    $msg.text('이미 존재하는 아이디입니다.').removeClass('successMsg').addClass('errorMsg');
+                    $('input[name="email"]').addClass('fieldError');
+                } else {
+                    $msg.text('사용 가능한 아이디입니다.').removeClass('errorMsg').addClass('successMsg');
+                    $('input[name="email"]').removeClass('fieldError');
+                }
+            });
+        });
+
+        // 비밀번호 유효성 체크
+        function validatePassword(pw) {
+            const lengthCheck = pw.length >= 8;
+            const numberCheck = /\d/.test(pw);
+            const upperCheck = /[A-Z]/.test(pw);
+            const lowerCheck = /[a-z]/.test(pw);
+            const specialCheck = /[!@#$%^&*(),.?":{}|<>]/.test(pw);
+            return lengthCheck && numberCheck && upperCheck && lowerCheck && specialCheck;
+        }
+
+        $('input[name="password"]').on('input', function() {
+            const pw = $(this).val();
+            const $msg = $('#pwCheck');
+
+            if(pw.length === 0){
+                $msg.text('').removeClass('errorMsg successMsg');
+                $(this).removeClass('fieldError');
+            } else if(!validatePassword(pw)){
+                $msg.text('비밀번호는 8자 이상, 숫자, 대/소문자, 특수문자를 포함해야 합니다.')
+                    .removeClass('successMsg').addClass('errorMsg');
+                $(this).addClass('fieldError');
             } else {
-                $('#nameCheck').text('');
+                $msg.text('사용 가능한 비밀번호입니다.').removeClass('errorMsg').addClass('successMsg');
+                $(this).removeClass('fieldError');
             }
         });
 
+        // 비밀번호 확인 체크
         $('input[name="confirmPassword"], input[name="password"]').on('input', function(){
             const pw = $('input[name="password"]').val();
             const cpw = $('input[name="confirmPassword"]').val();
+            const $msg = $('#confirmPwCheck');
+
             if(cpw.length > 0 && pw !== cpw){
+                $msg.text('비밀번호가 일치하지 않습니다.').removeClass('successMsg').addClass('errorMsg');
                 $('input[name="confirmPassword"]').addClass('fieldError');
-                $('input[name="confirmPassword"]').next('.errorMsg').text('비밀번호가 일치하지 않습니다.');
-            } else {
+            } else if(cpw.length > 0 && pw === cpw){
+                $msg.text('비밀번호가 일치합니다.').removeClass('errorMsg').addClass('successMsg');
                 $('input[name="confirmPassword"]').removeClass('fieldError');
-                $('input[name="confirmPassword"]').next('.errorMsg').text('');
+            } else {
+                $msg.text('');
+                $('input[name="confirmPassword"]').removeClass('fieldError');
             }
         });
+
     });
+</script>
+
+<!-- 회원가입 성공 알림 후 홈 이동 -->
+<script th:if="${signupSuccess}">
+    alert("회원가입이 완료되었습니다. 홈으로 이동합니다.");
+    window.location.href = "/";
 </script>
 </body>
 </html>
