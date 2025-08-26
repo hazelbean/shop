@@ -1,27 +1,27 @@
-# Book Shop
-<br/>
-<br/>
+# BOOK SHOP
+<br>
+<br>
 <img width="917" height="518" alt="1" src="https://github.com/user-attachments/assets/b2cb113c-8a19-489a-8dda-1acd58e2affe" />
 
 ### 도서쇼핑몰
-*PC Web, 2025-08*
-<br/>
+*PC Web, 2025-08~현재진행중*
+<br>
 
 ##
 
 ### ☑️ 개발배경
 JPA 실습을 위한 도서쇼핑몰 홈페이지 제작
-<br/>
+<br>
 
 ### ☑️ 개발목표
 1. JPA 사용 및 이해
 2. Thymeleaf 사용 및 이해
-<br/>
+<br>
 
 ### ☑️ 주요기능
 
 <img width="780" height="689" alt="2" src="https://github.com/user-attachments/assets/d676fe7a-2639-42e5-9399-2e257393fe9f" />
-<br/><br/>
+<br><br>
 
 >  **회원가입 및 회원목록 조회**
  - ID와 비밀번호는 필수 입력항목이다.
@@ -43,9 +43,9 @@ JPA 실습을 위한 도서쇼핑몰 홈페이지 제작
 - 배송이 시작된 주문은 취소할 수 없다.
 <br/>
 
-### 개발환경
+### ☑️ 개발환경
 > **Server & Back-end & Tool**
-- Jaba (JDK 21)
+- Java (JDK 21)
 - SpringBoot
 - InelliJ IDEA
 - H2 DB
@@ -54,4 +54,4 @@ JPA 실습을 위한 도서쇼핑몰 홈페이지 제작
 - Thymeleaf
 - JavaScript
 - Bootstrap4
-<br/>
+<br>
