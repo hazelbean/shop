@@ -2,16 +2,16 @@ package com.shop.hazel.domain;
 
 public class OrderSearch {
 
-    private String memberName;      //회원 이름
+    private String memberEmail;      //회원 이름
     private OrderStatus orderStatus;//주문 상태[ORDER, CANCEL]
 
     //Getter, Setter
-    public String getMemberName() {
-        return memberName;
+    public String getMemberEmail() {
+        return memberEmail;
     }
 
-    public void setMemberName(String memberName) {
-        this.memberName = memberName;
+    public void setMemberEmail(String memberEmail) {
+        this.memberEmail = memberEmail;
     }
 
     public OrderStatus getOrderStatus() {
