@@ -18,5 +18,7 @@ public class MemberForm {
     private String confirmPassword;
 
     private String address;
+    private String detailAddr;
+    private String extraAddr;
     private String zipcode;
 }

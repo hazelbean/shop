@@ -7,13 +7,17 @@ import jakarta.persistence.Embeddable;
 @Getter
 public class Address {
     private String address;
+    private String detailAddr;
+    private String extraAddr;
     private String zipcode;
 
     protected Address() {
     }
 
-    public Address(String address, String zipcode) {
+    public Address(String address, String detailAddr, String extraAddr, String zipcode) {
         this.address = address;
+        this.detailAddr = detailAddr;
+        this.extraAddr = extraAddr;
         this.zipcode = zipcode;
     }
 }

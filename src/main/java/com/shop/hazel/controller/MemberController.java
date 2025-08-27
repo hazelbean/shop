@@ -44,7 +44,7 @@ public class MemberController {
         member.setEmail(form.getEmail());
         member.setPassword(form.getPassword());
         member.setConfirmPassword(form.getConfirmPassword());
-        member.setAddress(new Address(form.getAddress(), form.getZipcode()));
+        member.setAddress(new Address(form.getAddress(), form.getDetailAddr(), form.getExtraAddr(), form.getZipcode()));
 
         try {
             memberService.join(member);
