@@ -20,7 +20,7 @@ JPA 실습을 위한 도서쇼핑몰 홈페이지 제작
 
 ### ☑️ 주요기능
 
-<img width="780" height="689" alt="2" src="https://github.com/user-attachments/assets/d676fe7a-2639-42e5-9399-2e257393fe9f" />
+<img width="801" height="334" alt="스크린샷 2025-08-27 오후 3 36 55" src="https://github.com/user-attachments/assets/3e39b5af-7fab-4d4e-bf79-fe6d91e0abac" />
 <br><br>
 
 >  **회원가입 및 회원목록 조회**
