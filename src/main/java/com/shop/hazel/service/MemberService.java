@@ -20,6 +20,7 @@ public class MemberService {
 
     @Transactional
     public Long join(Member member) {
+
         // 이름 중복 검사
         if (isEmailDuplicate(member.getEmail())) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
@@ -38,8 +39,8 @@ public class MemberService {
         return member.getId();
     }
 
-    public boolean isEmailDuplicate(String name) {
-        List<Member> members = memberRepository.findByName(name);
+    public boolean isEmailDuplicate(String email) {
+        List<Member> members = memberRepository.findByName(email);
         return !members.isEmpty();
     }
 
