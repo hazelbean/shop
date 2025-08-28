@@ -35,7 +35,8 @@ JPA 실습을 위한 도서쇼핑몰 홈페이지 제작
 - 제품은 도서 종류만 등록할 수 있다.
 - 등록된 제품확인 및 수정이 가능하다.<br>
 
-<img width="877" height="653" alt="스크린샷 2025-08-28 오후 12 29 31" src="https://github.com/user-attachments/assets/ebfd5aca-fb16-4355-b4f7-a4234fdb91d9" />
+<img width="883" height="370" alt="스크린샷 2025-08-28 오후 12 53 49" src="https://github.com/user-attachments/assets/2a3e5e1b-5fc6-4d59-95a1-7a4661032aab" />
+
 
 >  **주문 및 주문확인**
 - 주문은 회원의 ID와 제품의 ID를 받아온다.
